@@ -1,5 +1,5 @@
 $(function () {
-    const apiDomain = "http://linda-rag.duckdns.org:8000";
+    const apiDomain = "https://linda-rag.duckdns.org";
 
     function scrollToBottom() {
         $("html, body").animate(
