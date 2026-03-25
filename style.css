@@ -1,0 +1,265 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
+    min-height: 100vh;
+    color: #1e293b;
+}
+
+.page {
+    min-height: 100vh;
+    padding: 48px 20px 120px;
+}
+
+.chat-shell {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.intro {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.intro-badge {
+    display: inline-block;
+    background: #e0e7ff;
+    color: #4338ca;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.intro h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.intro p {
+    margin: 12px 0 0;
+    color: #64748b;
+    font-size: 15px;
+}
+
+.message-row {
+    display: flex;
+    margin-bottom: 22px;
+}
+
+.message-row.user {
+    justify-content: flex-end;
+}
+
+.message-row.bot {
+    justify-content: flex-start;
+}
+
+.message {
+    max-width: 720px;
+    border-radius: 22px;
+    padding: 20px 22px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.message.user-message {
+    background: #312e81;
+    color: #ffffff;
+    border-bottom-right-radius: 8px;
+    font-size: 17px;
+    line-height: 1.6;
+    word-break: break-all;
+}
+
+.message.bot-message {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-bottom-left-radius: 8px;
+}
+
+.bot-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.bot-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.bot-tag {
+    background: #ecfeff;
+    color: #0f766e;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.bot-content {
+    font-size: 16px;
+    line-height: 1.75;
+    color: #334155;
+}
+
+.bot-content ul {
+    margin: 10px 0 0;
+    padding-left: 20px;
+}
+
+.bot-content li {
+    margin-bottom: 10px;
+}
+
+.record-section {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #d9dee7;
+}
+
+.record-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 12px;
+}
+
+.record-table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.record-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 90px 1.4fr;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+/* 奇數行 */
+.record-row:nth-child(odd) {
+    background: #f8fafc;
+    border-color: #dbe4ee;
+}
+
+/* 偶數行 */
+.record-row:nth-child(even) {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+}
+
+.record-cell {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #1e293b;
+    word-break: break-word;
+}
+
+.record-cell.label {
+    color: #64748b;
+    font-weight: 600;
+}
+
+.record-cell.value {
+    color: #0f172a;
+    font-weight: 500;
+}
+
+.record-cell.mono {
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+    color: #0f766e;
+}
+
+.composer-wrap {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 18px 20px 24px;
+    background: linear-gradient(to top, rgba(248, 250, 252, 0.96), rgba(248, 250, 252, 0.7), transparent);
+    backdrop-filter: blur(6px);
+}
+
+.composer {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.08);
+}
+
+.composer input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    padding: 14px 12px;
+    background: transparent;
+    color: #0f172a;
+}
+
+.composer button {
+    border: none;
+    background: #4f46e5;
+    color: #ffffff;
+    width: 100px;
+    height: 48px;
+    border-radius: 14px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.composer button:hover {
+    background: #4338ca;
+}
+
+@media (max-width: 768px) {
+    .page {
+        padding-top: 28px;
+    }
+
+    .intro h1 {
+        font-size: 26px;
+    }
+
+    .message {
+        max-width: 100%;
+    }
+
+    .bot-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .record-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .record-cell.label {
+        margin-top: 4px;
+    }
+
+    .composer button span {
+        display: none;
+    }
+}
