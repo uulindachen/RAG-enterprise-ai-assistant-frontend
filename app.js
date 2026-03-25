@@ -1,4 +1,6 @@
 $(function () {
+    const apiDomain = "http://linda-rag.duckdns.org:8000";
+
     function scrollToBottom() {
         $("html, body").animate(
             { scrollTop: $(document).height() },
@@ -116,30 +118,13 @@ $(function () {
 
         scrollToBottom();
 
-        setTimeout(()=>{
         $.ajax({
-            url: "https://jsonplaceholder.typicode.com/todos/1",
+            url: apiDomain+"/search",
             method: "GET",
             data: {
                 query: value
             },
             success: function (res) {
-                const fakeRes = {
-                    "message": "Linda is the best software developer I've ever met.",
-                    "records": [
-                        {
-                            chunk_id: "chunk_12",
-                            distance: 0.858
-                        },
-                        {
-                            chunk_id: "chunk_13",
-                            distance:  0.912
-                        }
-                    ]
-                }
-
-                res = fakeRes;
-
                 const records = res.records || [];
 
                 $("#" + loadingId).replaceWith(
@@ -168,8 +153,7 @@ $(function () {
                 $btn.prop("disabled", false);
                 $input.focus();
             }
-            });
-        }, 5000)
+        });
     });
 
     $("#questionInput").on("keypress", function (e) {
