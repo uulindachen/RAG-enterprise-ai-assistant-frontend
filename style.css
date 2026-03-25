@@ -231,6 +231,62 @@ body {
     background: #4338ca;
 }
 
+.composer button:disabled {
+    background: #a5b4fc;
+    cursor: not-allowed;
+}
+
+
+
+
+.loading-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+}
+
+.loading-text {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.loading-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.loading-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #6366f1;
+    display: inline-block;
+    animation: loadingBounce 1.2s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.loading-dots span:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes loadingBounce {
+    0%, 80%, 100% {
+        transform: scale(0.7);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+
 @media (max-width: 768px) {
     .page {
         padding-top: 28px;
