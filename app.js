@@ -1,5 +1,9 @@
 $(function () {
     const apiDomain = "https://linda-rag.duckdns.org";
+    const $chatShell = $("#chatShell");
+    const $chatHistory = $("#chatHistory");
+    const $input = $("#questionInput");
+    const $btn = $("#sendBtn");
 
     function scrollToBottom() {
         $("html, body").animate(
@@ -9,7 +13,20 @@ $(function () {
     }
 
     function escapeHtml(text) {
-        return $("<div>").text(text).html();
+        return $("<div>").text(text ?? "").html();
+    }
+
+    function formatDistance(distance) {
+        if (distance === null || distance === undefined || distance === "") {
+            return "";
+        }
+
+        const num = Number(distance);
+        if (Number.isNaN(num)) {
+            return escapeHtml(String(distance));
+        }
+
+        return num.toFixed(6);
     }
 
     function buildRecordsHtml(records) {
@@ -23,13 +40,21 @@ $(function () {
                 <div class="record-table">
                     ${records.map(record => `
                         <div class="record-row">
-                            <div class="record-cell label">Chunk ID</div>
-                            <div class="record-cell value mono">${escapeHtml(record.chunk_id || "")}</div>
-                            <div class="record-cell label">Distance</div>
-                            <div class="record-cell value">${record.distance ?? ""}</div>
+                            <div class="record-label">Chunk ID</div>
+                            <div class="record-value">${escapeHtml(record.chunk_id || "")}</div>
+                            <div class="record-label">Distance</div>
+                            <div class="record-value">${formatDistance(record.distance)}</div>
                         </div>
                     `).join("")}
                 </div>
+            </div>
+        `;
+    }
+
+    function buildUserMessage(text) {
+        return `
+            <div class="message-row user">
+                <div class="message user-message">${escapeHtml(text)}</div>
             </div>
         `;
     }
@@ -70,19 +95,19 @@ $(function () {
     function buildLoadingMessage(loadingId) {
         return `
             <div class="message-row bot" id="${loadingId}">
-                <div class="message bot-message">
+                <div class="message bot-message loading-message">
                     <div class="bot-header">
                         <div class="bot-title">Summary Answer</div>
                         <div class="bot-tag">Searching...</div>
                     </div>
                     <div class="bot-content">
                         <div class="loading-wrap">
-                            <div class="loading-text">Loading</div>
                             <div class="loading-dots">
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </div>
+                            <div class="loading-text">Searching documents and generating answer...</div>
                         </div>
                     </div>
                 </div>
@@ -90,36 +115,43 @@ $(function () {
         `;
     }
 
-    $("#sendBtn").on("click", function () {
-        const value = $("#questionInput").val().trim();
+    function setChatStarted() {
+        $chatShell.addClass("has-messages");
+    }
+
+    function setSendingState(isSending) {
+        $input.prop("disabled", isSending);
+        $btn.prop("disabled", isSending);
+    }
+
+    function appendMessage(html) {
+        $chatHistory.append(html);
+        scrollToBottom();
+    }
+
+    function getErrorMessage() {
+        return "Something went wrong. Please try again later.";
+    }
+
+    function sendQuestion() {
+        const value = $input.val().trim();
 
         if (!value) {
-            alert("Please enter a question.");
+            $input.focus();
             return;
         }
 
-        const $btn = $("#sendBtn");
-        const $input = $("#questionInput");
-
-        const userHtml = `
-            <div class="message-row user">
-                <div class="message user-message">${escapeHtml(value)}</div>
-            </div>
-        `;
-
-        $(".chat-shell").append(userHtml);
+        setChatStarted();
+        appendMessage(buildUserMessage(value));
 
         const loadingId = "loading-" + Date.now();
-        $(".chat-shell").append(buildLoadingMessage(loadingId));
+        appendMessage(buildLoadingMessage(loadingId));
 
         $input.val("");
-        $input.prop("disabled", true);
-        $btn.prop("disabled", true);
-
-        scrollToBottom();
+        setSendingState(true);
 
         $.ajax({
-            url: apiDomain+"/search",
+            url: apiDomain + "/search",
             method: "GET",
             data: {
                 query: value
@@ -134,25 +166,32 @@ $(function () {
                 scrollToBottom();
             },
             error: function (xhr) {
-                let errorMessage = "Something went wrong. Please try again later.";
-
                 $("#" + loadingId).replaceWith(
-                    buildErrorMessage(errorMessage)
+                    buildErrorMessage(getErrorMessage(xhr))
                 );
 
                 scrollToBottom();
             },
             complete: function () {
-                $input.prop("disabled", false);
-                $btn.prop("disabled", false);
+                setSendingState(false);
                 $input.focus();
             }
         });
+    }
+
+    $(".example-btn").on("click", function () {
+        const question = $(this).data("question");
+        $input.val(question).focus();
     });
 
-    $("#questionInput").on("keypress", function (e) {
-        if (e.which === 13) {
-            $("#sendBtn").click();
+    $btn.on("click", function () {
+        sendQuestion();
+    });
+
+    $input.on("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            sendQuestion();
         }
     });
 });

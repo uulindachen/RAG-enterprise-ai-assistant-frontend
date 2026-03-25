@@ -13,65 +13,44 @@
 
 <body>
     <div class="page">
-        <div class="chat-shell">
-            <div class="intro">
+        <div class="chat-shell" id="chatShell">
+            <div class="intro" id="introSection">
                 <div class="intro-badge">Intelligent Document QA</div>
                 <h1>Ask and explore topics</h1>
-                <p>Get structured answers with key points and reference documents.</p>
-            </div>
+                <p class="intro-desc">
+                    Ask questions about your documents in natural language.
+                    You’ll get a summary answer with the most relevant retrieval records.
+                </p>
 
-            <div class="message-row user">
-                <div class="message user-message">
-                    Who is Linda?
+                <div class="intro-guide">
+                    <div class="guide-title">How to use</div>
+                    <ul>
+                        <li>Type a question about the document content</li>
+                        <li>Click Send to search and generate an answer</li>
+                        <li>Review the summary and matched chunks below</li>
+                    </ul>
+                </div>
+
+                <div class="example-prompts">
+                    <button class="example-btn" type="button" data-question="Summarize this document">
+                        Summarize this document
+                    </button>
+                    <button class="example-btn" type="button" data-question="What are the key points?">
+                        What are the key points?
+                    </button>
+                    <button class="example-btn" type="button" data-question="Who is Linda?">
+                        Who is Linda?
+                    </button>
                 </div>
             </div>
 
-            <div class="message-row bot">
-                <div class="message bot-message">
-                    <div class="bot-header">
-                        <div class="bot-title">Summary Answer</div>
-                        <div class="bot-tag">Found 4 records</div>
-                    </div>
-
-                    <div class="bot-content">
-                        Linda is the best software developer I've ever met.
-                    </div>
-
-                    <div class="record-section">
-                        <div class="record-title">Retrieval Records</div>
-
-                        <div class="record-table">
-                            <div class="record-row">
-                                <div class="record-label">Chunk ID</div>
-                                <div class="record-value">chunk_12</div>
-                                <div class="record-label">Distance</div>
-                                <div class="record-value">0.858630895614624</div>
-                            </div>
-
-                            <div class="record-row">
-                                <div class="record-label">Chunk ID</div>
-                                <div class="record-value">chunk_11</div>
-                                <div class="record-label">Distance</div>
-                                <div class="record-value">0.9583005905151367</div>
-                            </div>
-
-                            <div class="record-row">
-                                <div class="record-label">Chunk ID</div>
-                                <div class="record-value">chunk_10</div>
-                                <div class="record-label">Distance</div>
-                                <div class="record-value">1.0033633708953857</div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            <div class="chat-history" id="chatHistory"></div>
         </div>
     </div>
 
     <div class="composer-wrap">
         <div class="composer">
-            <input type="text" id="questionInput" placeholder="Ask a follow-up question..." />
+            <input type="text" id="questionInput" placeholder="Ask a question about the document..." />
             <button id="sendBtn">
                 <i class="fa-solid fa-paper-plane"></i>
                 <span>Send</span>
