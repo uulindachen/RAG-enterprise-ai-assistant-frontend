@@ -134,13 +134,7 @@ $(function () {
                 scrollToBottom();
             },
             error: function (xhr) {
-                let errorMessage = "Something went wrong.";
-
-                if (xhr.status === 404) {
-                    errorMessage = "No result found.";
-                } else if (xhr.status === 500) {
-                    errorMessage = "Server error. Please try again later.";
-                }
+                let errorMessage = "Something went wrong. Please try again later.";
 
                 $("#" + loadingId).replaceWith(
                     buildErrorMessage(errorMessage)
